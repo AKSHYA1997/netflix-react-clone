@@ -1,0 +1,31 @@
+import React, {useEffect, useState} from 'react';
+import axios from './axios'
+
+function Row({title,fetchUrl}) {
+    const [movies,setMovies] = useState([]);
+
+    // A snippet of code which runs based on a specific conditions
+    // like ngOnit
+
+    useEffect(() => {
+        //if []. run once when the row loads, and dont run again
+
+        async function fetchData() {
+            const request = await axios.get(fetchUrl);
+            console.log(request);
+            setMovies(request.data.results);
+            return request;
+        }
+        fetchData();
+    }, [fetchUrl]); // lets say of we have [movies] instead of [], so whenever the
+    // movies changes the useEffect is triggered
+console.log(movies);
+        return (
+            <div className="row">
+                <h2>{title}</h2>
+             <div className="row_posters"></div>
+            </div>
+        );
+}
+
+export default Row;
