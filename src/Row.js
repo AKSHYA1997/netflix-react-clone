@@ -1,31 +1,45 @@
-import React, {useEffect, useState} from 'react';
-import axios from './axios'
+import React, { useEffect, useState } from "react";
+import axios from "./axios";
+import "./Row.css";
 
-function Row({title,fetchUrl}) {
-    const [movies,setMovies] = useState([]);
+const base_url = "https://image.tmdb.org/t/p/original/";
 
-    // A snippet of code which runs based on a specific conditions
-    // like ngOnit
+function Row({ title, fetchUrl }) {
+  const [movies, setMovies] = useState([]);
 
-    useEffect(() => {
-        //if []. run once when the row loads, and dont run again
+  // A snippet of code which runs based on a specific conditions
+  // like ngOnit
 
-        async function fetchData() {
-            const request = await axios.get(fetchUrl);
-            console.log(request);
-            setMovies(request.data.results);
-            return request;
-        }
-        fetchData();
-    }, [fetchUrl]); // lets say of we have [movies] instead of [], so whenever the
-    // movies changes the useEffect is triggered
-console.log(movies);
-        return (
-            <div className="row">
-                <h2>{title}</h2>
-             <div className="row_posters"></div>
-            </div>
-        );
+  useEffect(() => {
+    //if []. run once when the row loads, and dont run again
+
+    async function fetchData() {
+      const request = await axios.get(fetchUrl);
+      console.log(request);
+      setMovies(request.data.results);
+      return request;
+    }
+    fetchData();
+  }, [fetchUrl]); // lets say of we have [movies] instead of [], so whenever the
+  // movies changes the useEffect is triggered
+  console.log(movies);
+  return (
+    <div className="row">
+      <h2>{title}</h2>
+      <div className="row_posters">
+        {/*several row_posters */}
+
+        {movies.map((movie) => (
+          <img
+            key={movie.id} // only changes when a new movie is added, this makes the fetching of movies faster
+            className="row_poster"
+            src={`${base_url}${movie.poster_path}`}
+            alt={movie.name}
+          />
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export default Row;
