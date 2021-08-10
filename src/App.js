@@ -5,10 +5,11 @@ import requests from "./requests";
 
 function App() {
   return (
-    <div className="App">
+    <div className="app">
       <Row
         title="NETFLIX ORIGINALS"
         fetchUrl={requests.fetchNetflixOriginals}
+        isLargeRow
       />
       <Row title="TRENDING NOW" fetchUrl={requests.fetchTrending} />
       <Row title="TOP RATED" fetchUrl={requests.fetchTopRated} />

@@ -4,7 +4,7 @@ import "./Row.css";
 
 const base_url = "https://image.tmdb.org/t/p/original/";
 
-function Row({ title, fetchUrl }) {
+function Row({ title, fetchUrl, isLargeRow }) {
   const [movies, setMovies] = useState([]);
 
   // A snippet of code which runs based on a specific conditions
@@ -22,7 +22,7 @@ function Row({ title, fetchUrl }) {
     fetchData();
   }, [fetchUrl]); // lets say of we have [movies] instead of [], so whenever the
   // movies changes the useEffect is triggered
-  console.log(movies);
+  console.table(movies);
   return (
     <div className="row">
       <h2>{title}</h2>
@@ -32,8 +32,10 @@ function Row({ title, fetchUrl }) {
         {movies.map((movie) => (
           <img
             key={movie.id} // only changes when a new movie is added, this makes the fetching of movies faster
-            className="row_poster"
-            src={`${base_url}${movie.poster_path}`}
+            className={`row_poster ${isLargeRow && "row_posterLarge"}`}
+            src={`${base_url}${
+              isLargeRow ? movie.poster_path : movie.backdrop_path
+            }`}
             alt={movie.name}
           />
         ))}
